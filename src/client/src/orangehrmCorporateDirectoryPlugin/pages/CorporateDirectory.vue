@@ -22,7 +22,7 @@
     <oxd-table-filter :filter-title="$t('general.directory')">
       <oxd-form @submit-valid="onSearch" @reset="onReset">
         <oxd-form-row>
-          <oxd-grid :cols="3">
+          <oxd-grid :cols="4">
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="filters.employeeNumber"
@@ -45,6 +45,9 @@
                 :label="$t('general.location')"
                 :options="locations"
               />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <subunit-dropdown v-model="filters.subUnitId" />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -146,12 +149,14 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
 import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
 import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
+import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
 import {OxdSpinner, useResponsive} from '@ohrm/oxd';
 
 const defaultFilters = {
   employeeNumber: null,
   jobTitleId: null,
   locationId: null,
+  subUnitId: null,
 };
 
 export default {
@@ -163,6 +168,7 @@ export default {
     'employee-details': EmployeeDetails,
     'summary-card-details': SummaryCardDetails,
     'employee-autocomplete': EmployeeAutocomplete,
+    'subunit-dropdown': SubunitDropdown,
   },
 
   props: {
@@ -228,6 +234,7 @@ export default {
           locationId: state.filters.locationId?.id,
           empNumber: state.filters.employeeNumber?.id,
           jobTitleId: state.filters.jobTitleId?.id,
+          subUnitId: state.filters.subUnitId?.id,
         })
         .then((response) => {
           const {data, meta} = response.data;

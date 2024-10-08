@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along with OrangeHRM.
  * If not, see <https://www.gnu.org/licenses/>.
  */
- -->
+-->
 
 <template>
   <div class="orangehrm-background-container">
@@ -177,6 +177,10 @@ export default {
       default: () => [],
     },
     locations: {
+      type: Array,
+      default: () => [],
+    },
+    subUnits: {
       type: Array,
       default: () => [],
     },

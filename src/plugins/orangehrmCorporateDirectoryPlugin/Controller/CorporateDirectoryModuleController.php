@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -20,6 +21,7 @@ namespace OrangeHRM\CorporateDirectory\Controller;
 
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Admin\Service\JobTitleService;
+use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
@@ -29,6 +31,7 @@ class CorporateDirectoryModuleController extends AbstractVueController
 {
     protected ?JobTitleService $jobTitleService = null;
     protected ?LocationService $locationService = null;
+    protected ?CompanyStructureService $companyStructureService = null;
 
     /**
      * @return JobTitleService
@@ -53,6 +56,17 @@ class CorporateDirectoryModuleController extends AbstractVueController
     }
 
     /**
+     * @return CompanyStructureService
+     */
+    protected function getCompanyStructureService(): CompanyStructureService
+    {
+        if (!$this->companyStructureService instanceof CompanyStructureService) {
+            $this->companyStructureService = new CompanyStructureService();
+        }
+        return $this->companyStructureService;
+    }
+
+    /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
@@ -64,6 +78,9 @@ class CorporateDirectoryModuleController extends AbstractVueController
 
         $locations = $this->getLocationService()->getLocationsArray();
         $component->addProp(new Prop('locations', Prop::TYPE_ARRAY, $locations));
+
+        $subunits = $this->getCompanyStructureService()->getSubunitArray();
+        $component->addProp(new Prop('sub-units', Prop::TYPE_ARRAY, $subunits));
 
         $this->setComponent($component);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -45,6 +46,7 @@ class EmployeeDirectoryDao extends BaseDao
         $q = $this->createQueryBuilder(Employee::class, 'employee');
         $q->leftJoin('employee.jobTitle', 'jobTitle');
         $q->leftJoin('employee.locations', 'location');
+        $q->leftJoin('employee.subDivision', 'subUnit');
 
         $this->setSortingAndPaginationParams($q, $employeeDirectorySearchParamHolder);
 
@@ -73,6 +75,11 @@ class EmployeeDirectoryDao extends BaseDao
         if (!is_null($employeeDirectorySearchParamHolder->getJobTitleId())) {
             $q->andWhere('jobTitle.id = :jobTitleId')
                 ->setParameter('jobTitleId', $employeeDirectorySearchParamHolder->getJobTitleId());
+        }
+
+        if (!is_null($employeeDirectorySearchParamHolder->getSubUnitId())) {
+            $q->andWhere('subUnit.id = :subUnitId')
+                ->setParameter('subUnitId', $employeeDirectorySearchParamHolder->getSubUnitId());
         }
 
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));

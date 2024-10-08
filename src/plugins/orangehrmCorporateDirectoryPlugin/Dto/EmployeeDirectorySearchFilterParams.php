@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -40,6 +41,10 @@ class EmployeeDirectorySearchFilterParams extends FilterParams
      * @var int|null
      */
     protected ?int $locationId = null;
+    /**
+     * @var int|null
+     */
+    protected ?int $subUnitId = null;
 
     public function __construct()
     {
@@ -108,5 +113,21 @@ class EmployeeDirectorySearchFilterParams extends FilterParams
     public function setLocationId(?int $locationId): void
     {
         $this->locationId = $locationId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getSubUnitId(): ?int
+    {
+        return $this->subUnitId;
+    }
+
+    /**
+     * @param int|null $subUnitId
+     */
+    public function setSubUnitId(?int $subUnitId): void
+    {
+        $this->subUnitId = $subUnitId;
     }
 }

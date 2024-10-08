@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -45,6 +46,7 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
     public const FILTER_NAME_OR_ID = 'nameOrId';
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
     public const FILTER_LOCATION_ID = 'locationId';
+    public const FILTER_SUBUNIT_ID = 'subUnitId';
     public const FILTER_MODEL = 'model';
     public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
     public const MODEL_DEFAULT = 'default';
@@ -186,6 +188,12 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
+     *         name="subUnitId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
      *         name="model",
      *         in="query",
      *         required=false,
@@ -249,6 +257,13 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
             )
         );
 
+        $employeeDirectoryParamHolder->setSubUnitId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_SUBUNIT_ID
+            )
+        );
+
         $employees = $this->getEmployeeDirectoryService()->getEmployeeDirectoryDao()->getEmployeeList(
             $employeeDirectoryParamHolder
         );
@@ -291,6 +306,12 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::FILTER_LOCATION_ID,
                     new Rule(Rules::POSITIVE),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_SUBUNIT_ID,
+                    new Rule(Rules::POSITIVE)
                 )
             ),
             $this->getModelParamRule(),

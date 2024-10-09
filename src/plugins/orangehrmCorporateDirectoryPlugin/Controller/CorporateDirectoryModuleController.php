@@ -79,8 +79,8 @@ class CorporateDirectoryModuleController extends AbstractVueController
         $locations = $this->getLocationService()->getLocationsArray();
         $component->addProp(new Prop('locations', Prop::TYPE_ARRAY, $locations));
 
-        $subunits = $this->getCompanyStructureService()->getSubunitArray();
-        $component->addProp(new Prop('sub-units', Prop::TYPE_ARRAY, $subunits));
+        $subUnits = $this->getCompanyStructureService()->getSubunitArray();
+        $component->addProp(new Prop('sub-units', Prop::TYPE_ARRAY, $subUnits));
 
         $this->setComponent($component);
     }

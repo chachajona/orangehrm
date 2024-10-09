@@ -46,9 +46,12 @@
                 :options="locations"
               />
             </oxd-grid-item>
-            <oxd-grid-item>
-              <subunit-dropdown v-model="filters.subUnitId" />
-            </oxd-grid-item>
+            <oxd-input-field
+              v-model="filters.subUnitId"
+              type="select"
+              :label="$t('general.sub_unit')"
+              :options="subUnits"
+            />
           </oxd-grid>
         </oxd-form-row>
 
@@ -149,7 +152,6 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
 import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
 import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
-import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
 import {OxdSpinner, useResponsive} from '@ohrm/oxd';
 
 const defaultFilters = {
@@ -168,7 +170,6 @@ export default {
     'employee-details': EmployeeDetails,
     'summary-card-details': SummaryCardDetails,
     'employee-autocomplete': EmployeeAutocomplete,
-    'subunit-dropdown': SubunitDropdown,
   },
 
   props: {

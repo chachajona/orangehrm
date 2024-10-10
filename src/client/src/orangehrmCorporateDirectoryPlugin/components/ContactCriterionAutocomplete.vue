@@ -18,52 +18,57 @@
  -->
 
 <template>
-    <oxd-grid-item>
-        <employee-autocomplete v-bind="$attrs" :params="{
-            includeEmployees: 'currentAndPast',
-        }" :rules="rules" :model-value="valueX"
-            @update:model-value="$emit('update:valueX', $event)"></employee-autocomplete>
-    </oxd-grid-item>
+  <oxd-grid-item>
+    <employee-autocomplete
+      v-bind="$attrs"
+      :params="{
+        includeEmployees: 'currentAndPast',
+      }"
+      :rules="rules"
+      :model-value="valueX"
+      @update:model-value="$emit('update:valueX', $event)"
+    ></employee-autocomplete>
+  </oxd-grid-item>
 </template>
 
 <script>
-import { required, validSelection } from '@ohrm/core/util/validation/rules';
+import {required, validSelection} from '@ohrm/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 
 export default {
-    name: 'ContactCriterionAutocomplete',
+  name: 'ContactCriterionAutocomplete',
 
-    components: {
-        'employee-autocomplete': EmployeeAutocomplete,
-    },
-    inheritAttrs: false,
+  components: {
+    'employee-autocomplete': EmployeeAutocomplete,
+  },
+  inheritAttrs: false,
 
-    props: {
-        operator: {
-            type: Object,
-            required: false,
-            default: () => null,
-        },
-        valueX: {
-            type: Object,
-            required: false,
-            default: () => null,
-        },
+  props: {
+    operator: {
+      type: Object,
+      required: false,
+      default: () => null,
     },
-    emits: ['update:valueX', 'update:operator'],
-    setup(_, context) {
-        const rules = [required, validSelection];
-        context.emit('update:operator', { id: 'eq', label: 'Equal' });
+    valueX: {
+      type: Object,
+      required: false,
+      default: () => null,
+    },
+  },
+  emits: ['update:valueX', 'update:operator'],
+  setup(_, context) {
+    const rules = [required, validSelection];
+    context.emit('update:operator', {id: 'eq', label: 'Equal'});
 
-        return {
-            rules,
-        };
-    },
+    return {
+      rules,
+    };
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 ::v-deep(.oxd-input-group__label-wrapper) {
-    display: none;
+  display: none;
 }
 </style>

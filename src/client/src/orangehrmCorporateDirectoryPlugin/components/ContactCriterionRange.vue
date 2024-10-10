@@ -18,109 +18,126 @@
  -->
 
 <template>
-    <oxd-grid-item>
-        <oxd-input-field type="select" :rules="rules.operator" :options="operators" :model-value="operator"
-            @update:model-value="$emit('update:operator', $event)" />
-    </oxd-grid-item>
-    <oxd-grid-item v-if="operator && operator.id === 'between'" class="orangehrm-report-range">
-        <oxd-input-field :rules="rules.valueX" :model-value="valueX"
-            @update:model-value="$emit('update:valueX', $event)" />
-        <oxd-text class="orangehrm-report-range-text" tag="p">to</oxd-text>
-        <oxd-input-field :rules="rules.valueY" :model-value="valueY"
-            @update:model-value="$emit('update:valueY', $event)" />
-    </oxd-grid-item>
-    <oxd-grid-item v-else-if="operator">
-        <oxd-input-field :rules="rules.valueXOnly" :model-value="valueX"
-            @update:model-value="$emit('update:valueX', $event)" />
-    </oxd-grid-item>
+  <oxd-grid-item>
+    <oxd-input-field
+      type="select"
+      :rules="rules.operator"
+      :options="operators"
+      :model-value="operator"
+      @update:model-value="$emit('update:operator', $event)"
+    />
+  </oxd-grid-item>
+  <oxd-grid-item
+    v-if="operator && operator.id === 'between'"
+    class="orangehrm-report-range"
+  >
+    <oxd-input-field
+      :rules="rules.valueX"
+      :model-value="valueX"
+      @update:model-value="$emit('update:valueX', $event)"
+    />
+    <oxd-text class="orangehrm-report-range-text" tag="p">to</oxd-text>
+    <oxd-input-field
+      :rules="rules.valueY"
+      :model-value="valueY"
+      @update:model-value="$emit('update:valueY', $event)"
+    />
+  </oxd-grid-item>
+  <oxd-grid-item v-else-if="operator">
+    <oxd-input-field
+      :rules="rules.valueXOnly"
+      :model-value="valueX"
+      @update:model-value="$emit('update:valueX', $event)"
+    />
+  </oxd-grid-item>
 </template>
 
 <script>
-import { ref } from 'vue';
-import { required, max, digitsOnly } from '@ohrm/core/util/validation/rules';
+import {ref} from 'vue';
+import {required, max, digitsOnly} from '@ohrm/core/util/validation/rules';
 import usei18n from '@/core/util/composable/usei18n';
 
 export default {
-    name: 'ContactCriterionRange',
-    inheritAttrs: false,
-    props: {
-        operator: {
-            type: Object,
-            required: false,
-            default: () => null,
-        },
-        valueX: {
-            type: String,
-            required: false,
-            default: null,
-        },
-        valueY: {
-            type: String,
-            required: false,
-            default: null,
-        },
+  name: 'ContactCriterionRange',
+  inheritAttrs: false,
+  props: {
+    operator: {
+      type: Object,
+      required: false,
+      default: () => null,
     },
-    emits: ['update:valueX', 'update:valueY', 'update:operator'],
-    setup(props) {
-        const { $t } = usei18n();
-        const operators = ref([
-            { id: 'lt', label: $t('general.less_than') },
-            { id: 'gt', label: $t('general.greater_than') },
-            { id: 'between', label: $t('general.range') },
-        ]);
-
-        const rules = {
-            operator: [required],
-            valueXOnly: [required, digitsOnly, max(100)],
-            valueX: [
-                required,
-                digitsOnly,
-                max(100),
-                (v) => {
-                    if (!parseInt(props.valueY)) return true;
-                    return (
-                        parseInt(v) < parseInt(props.valueY) ||
-                        $t('general.should_be_less_than_upper_bound')
-                    );
-                },
-            ],
-            valueY: [
-                required,
-                digitsOnly,
-                max(100),
-                (v) => {
-                    if (!parseInt(props.valueX)) return true;
-                    return (
-                        parseInt(v) > parseInt(props.valueX) ||
-                        $t('general.should_be_greater_than_lower_bound')
-                    );
-                },
-            ],
-        };
-
-        return {
-            rules,
-            operators,
-        };
+    valueX: {
+      type: String,
+      required: false,
+      default: null,
     },
+    valueY: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
+  emits: ['update:valueX', 'update:valueY', 'update:operator'],
+  setup(props) {
+    const {$t} = usei18n();
+    const operators = ref([
+      {id: 'lt', label: $t('general.less_than')},
+      {id: 'gt', label: $t('general.greater_than')},
+      {id: 'between', label: $t('general.range')},
+    ]);
+
+    const rules = {
+      operator: [required],
+      valueXOnly: [required, digitsOnly, max(100)],
+      valueX: [
+        required,
+        digitsOnly,
+        max(100),
+        (v) => {
+          if (!parseInt(props.valueY)) return true;
+          return (
+            parseInt(v) < parseInt(props.valueY) ||
+            $t('general.should_be_less_than_upper_bound')
+          );
+        },
+      ],
+      valueY: [
+        required,
+        digitsOnly,
+        max(100),
+        (v) => {
+          if (!parseInt(props.valueX)) return true;
+          return (
+            parseInt(v) > parseInt(props.valueX) ||
+            $t('general.should_be_greater_than_lower_bound')
+          );
+        },
+      ],
+    };
+
+    return {
+      rules,
+      operators,
+    };
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .orangehrm-report {
-    &-range {
-        display: flex;
-        justify-content: center;
-        align-items: baseline;
-    }
+  &-range {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+  }
 
-    &-range-text {
-        margin: 0 1rem;
-        font-size: $oxd-input-control-font-size;
-    }
+  &-range-text {
+    margin: 0 1rem;
+    font-size: $oxd-input-control-font-size;
+  }
 }
 
 ::v-deep(.oxd-input-group__label-wrapper) {
-    display: none;
+  display: none;
 }
 </style>

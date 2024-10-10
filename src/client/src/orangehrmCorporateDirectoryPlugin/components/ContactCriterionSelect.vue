@@ -18,79 +18,85 @@
  -->
 
 <template>
-    <oxd-grid-item>
-        <oxd-input-field v-bind="$attrs" type="select" :rules="rules" :options="opts" :model-value="valueX"
-            @update:model-value="$emit('update:valueX', $event)" />
-    </oxd-grid-item>
+  <oxd-grid-item>
+    <oxd-input-field
+      v-bind="$attrs"
+      type="select"
+      :rules="rules"
+      :options="opts"
+      :model-value="valueX"
+      @update:model-value="$emit('update:valueX', $event)"
+    />
+  </oxd-grid-item>
 </template>
 
 <script>
-import { ref, onBeforeMount } from 'vue';
-import { required } from '@ohrm/core/util/validation/rules';
-import { APIService } from '@ohrm/core/util/services/api.service';
+import {ref, onBeforeMount} from 'vue';
+import {required} from '@ohrm/core/util/validation/rules';
+import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
-    name: 'ContactCriterionSelect',
-    inheritAttrs: false,
-    props: {
-        api: {
-            type: String,
-            required: false,
-            default: null,
-        },
-        options: {
-            type: Array,
-            default: () => [],
-        },
-        valueX: {
-            type: Object,
-            required: false,
-            default: () => null,
-        },
+  name: 'ContactCriterionSelect',
+  inheritAttrs: false,
+  props: {
+    api: {
+      type: String,
+      required: false,
+      default: null,
     },
-    emits: ['update:valueX', 'update:operator'],
-    setup(props, context) {
-        const opts = ref(props.options);
-        const rules = [required];
+    options: {
+      type: Array,
+      default: () => [],
+    },
+    valueX: {
+      type: Object,
+      required: false,
+      default: () => null,
+    },
+  },
+  emits: ['update:valueX', 'update:operator'],
+  setup(props, context) {
+    const opts = ref(props.options);
+    const rules = [required];
 
-        if (props.api) {
-            const http = new APIService(window.appGlobal.baseUrl, `/api/v2/directory${props.api}`);
-            onBeforeMount(() => {
-                http
-                    .getAll({
-                        limit: 0,
-                    })
-                    .then(({ data }) => {
-                        opts.value = data.data.map((item) => {
-                            return {
-                                id: item.id,
-                                label: item.name ? item.name : item.title,
-                                _indent: item.level ? item.level + 1 : 1,
-                            };
-                        });
-                    });
+    if (props.api) {
+      const http = new APIService(
+        window.appGlobal.baseUrl,
+        `/api/v2/directory${props.api}`,
+      );
+      onBeforeMount(() => {
+        http
+          .getAll({
+            limit: 0,
+          })
+          .then(({data}) => {
+            opts.value = data.data.map((item) => {
+              return {
+                id: item.id,
+                label: item.name ? item.name : item.title,
+                _indent: item.level ? item.level + 1 : 1,
+              };
             });
-        }
+          });
+      });
+    }
 
-        if (
-            props.api === '/locations' ||
-            props.api === '/subunits'
-        ) {
-            context.emit('update:operator', { id: 'in', label: 'Equal' });
-        } else {
-            context.emit('update:operator', { id: 'eq', label: 'Equal' });
-        }
+    if (props.api === '/locations' || props.api === '/subunits') {
+      context.emit('update:operator', {id: 'in', label: 'Equal'});
+    } else {
+      context.emit('update:operator', {id: 'eq', label: 'Equal'});
+    }
 
-        return {
-            opts,
-            rules,
-        };
-    },
+    return {
+      opts,
+      rules,
+    };
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 ::v-deep(.oxd-input-group__label-wrapper) {
-    display: none;
+  display: none;
 }
 </style>

@@ -1,7 +1,7 @@
 apiv2_corporate_directory_employee:
   path: /api/v2/directory/employees/{empNumber}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
+  methods: [GET]
   defaults:
     _api: OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI
     _key: empNumber
@@ -11,9 +11,23 @@ apiv2_corporate_directory_employee:
 apiv2_corporate_directory_employees:
   path: /api/v2/directory/employees
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
+  methods: [GET]
   defaults:
     _api: OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI
+
+apiv2_corporate_directory_contact_list:
+  path: /api/v2/directory/contact-list
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET, POST, DELETE]
+  defaults:
+    _api: OrangeHRM\CorporateDirectory\Api\ContactListAPI
+
+apiv2_corporate_directory_contact_list_export:
+  path: /api/v2/directory/contact-list/export
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [POST]
+  defaults:
+    _api: OrangeHRM\CorporateDirectory\Api\ContactListExportAPI
 
 ##########################
 #        Screens
@@ -22,4 +36,8 @@ apiv2_corporate_directory_employees:
 corporate_directory_module:
   path: /directory/viewDirectory
   controller: OrangeHRM\CorporateDirectory\Controller\CorporateDirectoryModuleController::handle
-  methods: [ GET ]
+  methods: [GET]
+corporate_directory_contact_list_module:
+  path: /directory/viewContactList
+  controller: OrangeHRM\CorporateDirectory\Controller\ContactListController::handle
+  methods: [GET]

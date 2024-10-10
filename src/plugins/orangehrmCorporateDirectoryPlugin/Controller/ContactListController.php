@@ -1,3 +1,5 @@
+<?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,10 +17,23 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import CorporateDirectory from './pages/CorporateDirectory.vue';
-import EmployeeContactList from './pages/contact-list/EmployeeContactList.vue';
+namespace OrangeHRM\CorporateDirectory\Controller;
 
-export default {
-  'corporate-directory-employee-list': CorporateDirectory,
-  'employee-contact-list': EmployeeContactList,
-};
+
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+
+class ContactListController extends AbstractVueController
+{
+  /**
+   * @inheritDoc
+   */
+  public function preRender(Request $request): void
+  {
+    $component = new Component('employee-contact-list');
+
+    $this->setComponent($component);
+  }
+}

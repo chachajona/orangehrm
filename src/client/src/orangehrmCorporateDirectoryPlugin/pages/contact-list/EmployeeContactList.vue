@@ -21,7 +21,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('directory.employee_contact_list') }}
+        Employee Contact List
       </oxd-text>
       <oxd-divider />
 
@@ -145,7 +145,7 @@
           <oxd-button
             type="button"
             display-type="secondary"
-            :label="$t('general.export')"
+            :label="'Export'"
             @click="onExport"
           />
         </oxd-form-actions>
@@ -183,6 +183,7 @@ import useEmployeeReport from '@/orangehrmCorporateDirectoryPlugin/util/composab
 import ReportsTable from '@/core/components/table/ReportsTable';
 
 export default {
+  name: 'EmployeeContactList',
   components: {
     'contact-criterion': ContactCriterion,
     'contact-display-field': ContactDisplayField,
